@@ -35,7 +35,7 @@ public class WelcomeScreen extends Activity {
                 SharedPreferences.Editor editor = mPrefs.edit();
                 editor.putBoolean(screenShown, true);
                 editor.commit(); // Save the preference
-                Intent intent = new Intent(WelcomeScreen.this,MainActivity.class);
+                Intent intent = new Intent(WelcomeScreen.this,MainMenuActivity.class);
                 startActivity(intent);
 
             }

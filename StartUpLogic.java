@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by brian on 15/01/2018.
@@ -20,6 +21,9 @@ public class StartUpLogic extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        //Set the data to be persistable to speed up data display time
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // second argument is the default to use if the preference can't be found
@@ -27,7 +31,7 @@ public class StartUpLogic extends Activity {
 
         if (welcomeScreenShown) {
 
-            Intent myIntent = new Intent(StartUpLogic.this, MainActivity.class);
+            Intent myIntent = new Intent(StartUpLogic.this, MainMenuActivity.class);
             startActivity(myIntent);
             finish();
         }
