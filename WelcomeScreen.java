@@ -1,10 +1,12 @@
 package com.a1108software.brian.fly_safe;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 
 /**
  * Created by brian on 22/06/2017.
@@ -20,28 +22,25 @@ public class WelcomeScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Welcome To Fly-Safe");
+        builder.setMessage("**Warning**\nThis application is intended to help locate areas which are safe to fly rc models, " +
+                "this being said good judgement on behalf of users is also required and so we ask you to be cautious when choosing your flying site");
 
-        // second argument is the default to use if the preference can't be found
-        Boolean welcomeScreenShown = mPrefs.getBoolean(screenShown, false);
-
-        if (!welcomeScreenShown) {
-
-            SharedPreferences.Editor editor = mPrefs.edit();
-            editor.putBoolean(screenShown, true);
-            editor.commit(); // Save the preference
-            Intent myIntent = new Intent(WelcomeScreen.this, MainActivity.class);
-            boolean welcomeShown = false;
-            myIntent.putExtra("welcomeShown", welcomeShown);
-            startActivity(myIntent);
-            finish();
-        }
-        else
+        builder.setPositiveButton("Got It", new DialogInterface.OnClickListener()
         {
-            Intent myIntent = new Intent(WelcomeScreen.this, MainActivity.class);
-            startActivity(myIntent);
-            finish();
-        }
+            public void onClick(DialogInterface dialog, int id)
+            {
+                mPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = mPrefs.edit();
+                editor.putBoolean(screenShown, true);
+                editor.commit(); // Save the preference
+                Intent intent = new Intent(WelcomeScreen.this,MainActivity.class);
+                startActivity(intent);
 
+            }
+        });
+
+        builder.show();
     }
 }
